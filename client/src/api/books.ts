@@ -1,5 +1,4 @@
-import { logger } from '@lark-apaas/client-toolkit/logger';
-import { axiosForBackend } from '@lark-apaas/client-toolkit/utils/getAxiosForBackend';
+import { logger, axiosForBackend } from '@client/src/lib/platform';
 import type {
   Book,
   BookListResponse,
