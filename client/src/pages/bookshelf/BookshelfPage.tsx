@@ -11,8 +11,7 @@ import {
   X,
   CheckSquare,
 } from 'lucide-react';
-import { logger } from '@lark-apaas/client-toolkit/logger';
-import { axiosForBackend } from '@lark-apaas/client-toolkit/utils/getAxiosForBackend';
+import { logger, axiosForBackend } from '@client/src/lib/platform';
 import { toast } from 'sonner';
 import { useDebounce } from '@client/src/hooks/useDebounce';
 import { Button } from '@client/src/components/ui/button';
