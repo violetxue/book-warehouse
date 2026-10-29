@@ -1,0 +1,15 @@
+{"cases":[
+  {"id":1,"priority":"p0","description":"进入书架页面，预期页面标题\"清爽书库\"可见，搜索框和上传按钮存在"},
+  {"id":2,"priority":"p0","description":"书架页面空态，预期显示空态文案和上传按钮"},
+  {"id":3,"priority":"p0","description":"点击上传按钮，预期弹出上传弹窗，包含拖拽区域和文件选择功能"},
+  {"id":4,"priority":"p1","description":"文件类型筛选栏，预期显示全部、PDF、EPUB、TXT等分类标签"},
+  {"id":5,"priority":"p1","description":"搜索框输入关键词，预期输入框内容可输入且有搜索图标"},
+  {"id":6,"priority":"p1","description":"点击打包下载按钮，空库时弹出提示\"书库是空的\""},
+  {"id":7,"priority":"p0","description":"桌面端左侧文件夹侧边栏可见，显示\"全部书籍\"入口和新建文件夹按钮"},
+  {"id":8,"priority":"p0","description":"创建新文件夹成功，侧边栏出现新文件夹名称"},
+  {"id":9,"priority":"p1","description":"移动端视图：页面单列布局，底部浮动上传按钮可见"},
+  {"id":10,"priority":"p1","description":"移动端点击文件夹按钮，抽屉弹出显示文件夹列表"},
+  {"id":11,"priority":"p1","description":"点击多选按钮进入选择模式，卡片显示复选框，工具栏显示已选数量"},
+  {"id":12,"priority":"p1","description":"多选模式下点击取消选择，预期退出选择模式且复选框隐藏"},
+  {"id":13,"priority":"p1","description":"匿名用户可浏览书架页面，页面正常加载不报错"}
+]}
