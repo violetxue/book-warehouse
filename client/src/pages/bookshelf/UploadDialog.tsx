@@ -1,8 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { Upload, X, CheckCircle, AlertCircle, FileText, Copy } from 'lucide-react';
-import { logger } from '@lark-apaas/client-toolkit/logger';
-import { getDataloom } from '@lark-apaas/client-toolkit/dataloom';
-import { getDefaultBucketId } from '@lark-apaas/client-toolkit/tools/storage';
+import { logger, axiosForBackend } from '@client/src/lib/platform';
 import { toast } from 'sonner';
 import {
   Dialog,
@@ -132,27 +130,33 @@ const UploadDialog = ({ open, onOpenChange, onSuccess, folderId }: UploadDialogP
     );
 
     try {
-      const dataloom = await getDataloom();
-      const bucketId = getDefaultBucketId();
+      // 1. 将文件以 multipart 上传到本服务 /api/files/upload（替代平台 dataloom 云存储）
+      const formData = new FormData();
+      formData.append('file', item.file, item.file.name);
 
-      const { data, error } = await dataloom.storage
-        .from(bucketId)
-        .uploadFile(item.file);
+      const { data } = await axiosForBackend.post<{
+        downloadUrl: string;
+        filePath: string;
+        bucketId: string;
+      }>('/api/files/upload', formData, {
+        onUploadProgress: (e) => {
+          if (e.total) {
+            const pct = Math.min(99, Math.round((e.loaded / e.total) * 100));
+            setItems((prev) =>
+              prev.map((i) =>
+                i.id === item.id ? { ...i, progress: pct } : i,
+              ),
+            );
+          }
+        },
+      });
 
-      if (error || !data) {
-        const errMsg =
-          error?.message ??
-          ('error_msg' in (error as unknown as Record<string, unknown>)
-            ? String((error as unknown as Record<string, unknown>).error_msg)
-            : '未知错误');
-        throw new Error('上传失败: ' + errMsg);
-      }
-
-      const { download_url: downloadUrl, file_path: filePath } = data;
+      const { downloadUrl, filePath, bucketId } = data;
 
       const fileType = getFileTypeFromFileName(item.file.name);
       const title = item.file.name.replace(/\.[^.]+$/, '');
 
+      // 2. 创建书籍条目
       await createBookMutation.mutateAsync({
         title,
         filePath,

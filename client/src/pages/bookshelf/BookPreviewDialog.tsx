@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Download, X, Loader2, AlertCircle, FileText } from 'lucide-react';
-import { logger } from '@lark-apaas/client-toolkit/logger';
+import { logger } from '@client/src/lib/platform';
 import { toast } from 'sonner';
 import {
   Dialog,
