@@ -1,18 +1,21 @@
 # Dependencies
 node_modules/
-*/
-node_modules/
+*/node_modules/
 
 # Production builds
 dist/
-*/
-dist/
+*/dist/
 build/
-*/
-build/
+*/build/
 
 # Environment files
 .env.local
+.env
+!.env.example
+
+# 独立部署运行时数据（上传文件、本地数据库冒烟数据）
+data/
+.pgdata-smoke/
 
 # Logs
 npm-debug.log*

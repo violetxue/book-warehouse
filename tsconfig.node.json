@@ -1,18 +1,31 @@
 {
-  "extends": "@lark-apaas/fullstack-presets/lib/simple/tsconfig/tsconfig.node.json",
   "compilerOptions": {
-    "baseUrl": "./",
+    "target": "ES2023",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "moduleDetection": "force",
     "outDir": "./dist",
-    "preserveWatchOutput": true,
+    "baseUrl": "./",
     "paths": {
       "@server/*": ["server/*"],
-      "@shared/*": ["shared/*"],
-    }
+      "@shared/*": ["shared/*"]
+    },
+    "declaration": false,
+    "sourceMap": true,
+    "strict": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false,
+    "types": ["node", "multer"],
+    "preserveWatchOutput": true
   },
+  "include": ["server/**/*", "shared/**/*.ts"],
   "watchOptions": {
     "excludeDirectories": ["node_modules/**"]
   },
-  "include": ["server/**/*", "shared/**/*.ts"],
-  // MCP UI 是独立浏览器工程，不使用服务端的 TypeScript 配置。
-  "exclude": ["server/mcp/ui", "node_modules", "dist", "client", "source_package", "**/*.spec.ts", "**/*.e2e-spec.ts"],
+  "exclude": ["server/mcp/ui", "node_modules", "dist", "client", "source_package", "**/*.spec.ts", "**/*.e2e-spec.ts"]
 }

@@ -1,24 +1,40 @@
 {
-  "extends": "@lark-apaas/fullstack-presets/lib/simple/tsconfig/tsconfig.app.json",
   "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "allowImportingTsExtensions": true,
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "baseUrl": "./",
     "paths": {
       "@client/*": ["client/*"],
       "@shared/*": ["shared/*"],
-      "@/*": ["./client/src/*"],
-      "@lark-apaas/client-toolkit/tools/*": ["node_modules/@lark-apaas/client-toolkit/lib/apis/tools/*"]
+      "@/*": ["./client/src/*"]
     },
-    "incremental": true,
+    "types": ["node", "vite/client"]
   },
-  "include": [
-    "client/**/*",
-    "shared/**/*"
-  ],
+  "include": ["client/**/*", "shared/**/*"],
   "exclude": [
     "node_modules",
     "dist",
     "public",
     "source_package",
-    "client/src/api/gen"
+    "client/src/api/gen",
+    "client/src/components/business-ui",
+    "client/src/pages/ExamplePage",
+    "client/src/hooks/use-example.ts",
+    "client/src/utils/img-resources"
   ]
 }
