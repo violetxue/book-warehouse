@@ -11,7 +11,7 @@ import {
   Res,
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
-import { NeedLogin } from '@lark-apaas/fullstack-nestjs-core';
+import { NeedLogin } from '@server/platform/need-login.decorator';
 import { BooksService } from './books.service';
 import { BookQueryDto } from './dto/book-query.dto';
 import { CreateBookDto } from './dto/create-book.dto';

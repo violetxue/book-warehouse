@@ -5,11 +5,9 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
-import {
-  DRIZZLE_DATABASE,
-  type PostgresJsDatabase,
-} from '@lark-apaas/fullstack-nestjs-core';
+import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { eq, count, asc, isNull } from 'drizzle-orm';
+import { DRIZZLE_DATABASE } from '@server/platform/database.constants';
 import { folders, books } from '@server/database/schema';
 import type { Folder } from '@shared/api.interface';
 import type { CreateFolderDto } from './dto/create-folder.dto';

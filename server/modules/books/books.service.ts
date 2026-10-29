@@ -5,14 +5,14 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
-import {
-  DRIZZLE_DATABASE,
-  type PostgresJsDatabase,
-  FileService,
-} from '@lark-apaas/fullstack-nestjs-core';
+import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { eq, and, or, ilike, desc, count, asc, isNull, gt, lt, sql } from 'drizzle-orm';
+import { DRIZZLE_DATABASE } from '@server/platform/database.constants';
+import { LocalFileService } from '@server/platform/local-file.service';
 import type { Response } from 'express';
-import archiver from 'archiver';
+// archiver 8.x 的类型声明未导出工厂函数，独立部署版用 require 获取（返回 any，可调用）
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const archiver = require('archiver');
 import { books, folders } from '@server/database/schema';
 import type { Book, BookListResponse } from '@shared/api.interface';
 import type { CreateBookDto } from './dto/create-book.dto';
@@ -24,7 +24,7 @@ export class BooksService {
 
   constructor(
     @Inject(DRIZZLE_DATABASE) private readonly db: PostgresJsDatabase,
-    private readonly fileService: FileService,
+    private readonly fileService: LocalFileService,
   ) {}
 
   private toBook(row: typeof books.$inferSelect): Book {

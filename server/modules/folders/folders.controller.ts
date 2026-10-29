@@ -9,7 +9,7 @@ import {
   Req,
 } from '@nestjs/common';
 import type { Request } from 'express';
-import { NeedLogin } from '@lark-apaas/fullstack-nestjs-core';
+import { NeedLogin } from '@server/platform/need-login.decorator';
 import { FoldersService } from './folders.service';
 import { CreateFolderDto } from './dto/create-folder.dto';
 import { RenameFolderDto } from './dto/rename-folder.dto';

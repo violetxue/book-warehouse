@@ -1,31 +1,30 @@
-import { APP_FILTER } from '@nestjs/core';
-import { Module } from '@nestjs/common';
-import { PlatformModule } from '@lark-apaas/fullstack-nestjs-core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
 import { GlobalExceptionFilter } from './common/filters/exception.filter';
-import { ViewModule } from './modules/view/view.module';
+import { DatabaseModule } from './platform/database.module';
+import { StorageModule } from './platform/storage.module';
+import { AuthGuard } from './platform/auth.guard';
+import { UserContextMiddleware } from './platform/user-context.middleware';
 import { BooksModule } from './modules/books/books.module';
 import { FoldersModule } from './modules/folders/folders.module';
+import { FilesModule } from './modules/files/files.module';
 
 @Module({
-  imports: [
-    // 平台 Module，提供平台能力
-    PlatformModule.forRoot(),
-    // ====== @route-section: business-modules START ======
-    // Place all business modules here.Do NOT add fallback modules here.
-    BooksModule,
-    FoldersModule,
-    // ====== @route-section: business-modules END ======
-
-    // ⚠️ @route-order: last
-    // ViewModule is the fallback route module, must be registered last.
-    ViewModule,
-  ],
+  imports: [DatabaseModule, StorageModule, BooksModule, FoldersModule, FilesModule],
   providers: [
     {
       provide: APP_FILTER,
       useClass: GlobalExceptionFilter,
     },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(UserContextMiddleware).forRoutes('*');
+  }
+}
