@@ -94,6 +94,29 @@ npm start         # node dist/server/main.js，单端口提供前端与 API
 
 > ⚠️ **安全提示**：默认免登录模式下，**写操作（上传/删除/改名/排序）同样公开**。部署到公网时建议设置 `ADMIN_TOKEN` 保护写操作，或加一层反向代理鉴权。
 
+## Docker 一键部署（本机 / 服务器 / Sealos 等云平台）
+
+项目已内置 Dockerfile 与 docker-compose.yml，应用与 PostgreSQL 一条命令启动：
+
+```bash
+# 方式一：Docker Compose（自动起数据库 + 应用）
+docker compose up -d --build
+# 打开 http://localhost:3000
+
+# 方式二：仅构建应用镜像（数据库用外部 PostgreSQL，设置 DATABASE_URL 环境变量）
+docker build -t book-warehouse .
+docker run -p 3000:3000 -e DATABASE_URL=postgres://... -v book-data:/app/data/uploads book-warehouse
+```
+
+镜像内置首次启动自动建表（`init-db.js`，幂等），无需手动初始化。
+
+**Sealos 云平台部署**（国内可访问、手机号注册、免信用卡）：
+1. 注册 https://sealos.io ，登录后新建项目
+2. 用 DevBox 或"从 GitHub 部署"导入本仓库 `violetxue/book-warehouse`
+3. 创建 PostgreSQL 数据库实例，取得连接串
+4. 配置环境变量 `DATABASE_URL=<连接串>`（可选 `ADMIN_TOKEN` 保护写操作）
+5. 构建并启动（`npm run build && npm start` 或直接用内置 Dockerfile），获取平台分配的公网域名
+
 ## API 一览
 
 | 方法 | 路径 | 说明 |

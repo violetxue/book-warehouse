@@ -1,0 +1,35 @@
+# 一键启动：应用 + PostgreSQL（本机/服务器均可）
+# 用法：docker compose up -d --build
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: book-warehouse-db
+    environment:
+      POSTGRES_DB: book_warehouse
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: book-warehouse-app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/book_warehouse
+      UPLOAD_DIR: /app/data/uploads
+    ports:
+      - "3000:3000"
+    volumes:
+      - uploads:/app/data/uploads
+
+volumes:
+  pgdata:
+  uploads:

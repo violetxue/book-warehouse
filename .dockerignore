@@ -1,0 +1,9 @@
+node_modules
+dist
+data
+.pgdata-smoke
+.env
+.git
+.gitignore
+README.md
+*.log
